@@ -16,7 +16,7 @@ Enterprise UI/UX library for rapidly building apps.
 
 ---
 
-## Where to use D9 Experience
+Experience provides a collection of pre-built user interface components for building client applications. These components are decoupled from their styling system. Style providers implement adapters to common css frameworks.
 
 ```
 • app.index
