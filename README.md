@@ -23,12 +23,9 @@ Enterprise UI/UX library for rapidly building apps.
 │
 ├─ app.ui
 │  │
-│  ├─ degree9.experience  [*]
-│  │  ├─ uikit-hl
-│  │  └─ semui-hl
-│  │
-│  └─ ...
-│
+│  └─ degree9.experience  [*]
+│     ├─ uikit-hl
+│     └─ semui-hl
 └─ ...
    └─ ...
 ```
