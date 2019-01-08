@@ -29,3 +29,18 @@ Experience provides a collection of pre-built user interface components for buil
 └─ ...
    └─ ...
 ```
+
+---
+
+<p align="center">
+  <a href="https://www.patreon.com/degree9" align="center">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160" alt="Patreon">
+  </a>
+  <br>
+  <b>D9 Enterprise is only supported for Enterprise tier patrons.</b>
+</p>
+
+---
+
+[slack]: https://img.shields.io/badge/clojurians-degree9-%23e01563.svg?logo=slack
+[d9-slack]: https://clojurians.slack.com/channels/degree9/
