@@ -2,7 +2,7 @@
 
 [![Clojars Project](https://img.shields.io/clojars/v/degree9/experience.svg)](https://clojars.org/degree9/experience) <!-- [![Dependencies Status](https://versions.deps.co/degree9/experience/status.svg)](https://versions.deps.co/degree9/experience)--> [![Downloads](https://versions.deps.co/degree9/experience/downloads.svg)](https://versions.deps.co/degree9/experience) [![Slack][slack]][d9-slack]
 
-A commercially supported ClojureScript platform by Degree9.
+Enterprise UI/UX library for rapidly building apps.
 
 ---
 
