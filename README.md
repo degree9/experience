@@ -15,3 +15,20 @@ Enterprise UI/UX library for rapidly building apps.
 </p>
 
 ---
+
+## Where to use D9 Experience
+
+```
+• app.index
+│
+├─ app.ui
+│  │
+│  ├─ degree9.experience  [*]
+│  │  ├─ uikit-hl
+│  │  └─ semui-hl
+│  │
+│  └─ ...
+│
+└─ ...
+   └─ ...
+```
