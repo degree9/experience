@@ -1,0 +1,9 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src"]
+
+ :dependencies
+ [[degree9/enterprise "0.0.0-SNAPSHOT"]
+
+  ;; dev
+  [degree9/boot-semver "1.8.0" :scope "test"]]}
