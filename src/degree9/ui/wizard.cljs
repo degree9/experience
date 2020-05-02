@@ -1,4 +1,4 @@
-(ns degree9.wizard
+(ns degree9.ui.wizard
   "Handles state for building a wizard component."
   (:require [hoplon.core :as h]
             [javelin.core :as j]
