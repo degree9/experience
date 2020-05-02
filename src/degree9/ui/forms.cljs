@@ -1,4 +1,4 @@
-(ns degree9.forms
+(ns degree9.ui.forms
   (:require [hoplon.core :as h]
             [uikit-hl.form :as form]
             [uikit-hl.flex :as flex]
