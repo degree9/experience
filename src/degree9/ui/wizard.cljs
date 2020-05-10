@@ -20,15 +20,16 @@
 (defn- current-step [needle haystack]
   (first (keep-indexed #(when (= %2 needle) %1) haystack)))
 
-(h/defelem simple-wizard [{:keys [steps previous next cancel complete] :as attr} kids]
+(h/defelem simple-wizard [{:keys [steps previous next cancel complete header footer] :as attr} kids]
   (let [current   (j/cell 0)
         step      (j/cell= (get steps current))
         id        (:id attr (gensym))]
     (modal/modal :id id
       (modal/dialog attr
         (modal/header
-          (modal/title (:title attr "Simple Wizard")))
-        (modal/body ::section/muted true ::padding/small true
+          (modal/title (:title attr "Simple Wizard"))
+          header)
+        (modal/body ::section/muted true ::padding/small true ::util/overflow-auto true
           (grid/grid ::width/width-1-1 true
             (grid/cell ::width/width-auto true
               (tab/tab :left true ::width/child-width-auto true
@@ -44,11 +45,13 @@
               (h/text "~{(str (inc current) \" / \" (count steps))}"))
             (grid/cell ::text/right true ::width/width-expand true
               (button/group ::width/child-width-auto true
+                footer
                 (h/when-tpl (j/cell= (:cancel? step (:cancel step (:cancel? attr))))
                   (button/button
                     :default true
                     ::modal/close true
                     :disabled (j/cell= (get-in step [:cancel :disabled]))
+                    ::margin/small-left true
                     (j/cell= (get-in step [:cancel :text] (get cancel :text cancel)))))
                 (h/when-tpl (j/cell= (:previous? step (:previous step (:previous? attr))))
                   (button/button
