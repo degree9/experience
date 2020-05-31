@@ -51,7 +51,6 @@
                     :default true
                     ::modal/close true
                     :disabled (j/cell= (get-in step [:cancel :disabled]))
-                    ::margin/small-left true
                     (j/cell= (get-in step [:cancel :text] (get cancel :text cancel)))))
                 (h/when-tpl (j/cell= (:previous? step (:previous step (:previous? attr))))
                   (button/button
