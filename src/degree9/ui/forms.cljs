@@ -1,5 +1,6 @@
 (ns degree9.ui.forms
   (:require [hoplon.core :as h]
+            [javelin.core :as j]
             [uikit-hl.form :as form]
             [uikit-hl.flex :as flex]
             [uikit-hl.grid :as grid]
@@ -61,3 +62,12 @@
       (form/label label)
       (form/controls ::form/controls-text true
         (h/label (map form/radio options))))))
+
+;;;;;;;;
+
+(h/defelem input [{:keys [validate] :as attr} kids]
+  (form/input
+    (dissoc attr :validate)
+    :success (j/cell= validate)
+    :danger (j/cell= (not validate))
+    kids))
