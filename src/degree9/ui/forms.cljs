@@ -1,11 +1,15 @@
 (ns degree9.ui.forms
   (:require [hoplon.core :as h]
             [javelin.core :as j]
+            [degree9.debug :as dbg]
             [uikit-hl.form :as form]
             [uikit-hl.flex :as flex]
             [uikit-hl.grid :as grid]
             [uikit-hl.margin :as margin]
-            [uikit-hl.width :as width]))
+            [uikit-hl.width :as width]
+            [degree9.regex :as regex]))
+
+(dbg/defdebug debug "degree9:experience:forms")
 
 (defmulti form! (fn [data] (keyword (:type data))) :default :input)
 
@@ -65,9 +69,31 @@
 
 ;;;;;;;;
 
-(h/defelem input [{:keys [validate] :as attr} kids]
+(h/defelem input [{:keys [value validate] :as attr} kids]
+  (j/cell= (debug "Form input valdation %s" validate))
   (form/input
     (dissoc attr :validate)
-    :success (j/cell= validate)
-    :danger (j/cell= (not validate))
+    ::form/success (j/cell= (when value validate))
+    ::form/danger  (j/cell= (when value (not validate)))
+    kids))
+
+(h/defelem number [attr kids]
+  (input
+    attr
+    :type "number"
+    :pattern regex/number
+    kids))
+
+(h/defelem email [attr kids]
+  (input
+    attr
+    :type "email"
+    :pattern regex/email
+    kids))
+
+(h/defelem phone-number [attr kids]
+  (input
+    attr
+    :type "tel"
+    :pattern regex/phone-num
     kids))
