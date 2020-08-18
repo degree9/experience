@@ -70,12 +70,15 @@
 ;;;;;;;;
 
 (h/defelem input [{:keys [value validate] :as attr} kids]
-  (j/cell= (debug "Form input valdation %s" validate))
-  (form/input
-    (dissoc attr :validate)
-    ::form/success (j/cell= (when value validate))
-    ::form/danger  (j/cell= (when value (not validate)))
-    kids))
+  (let [valid   (j/cell= (boolean validate))
+        success (j/cell= (when value valid))
+        failure (j/cell= (when value (not valid)))]
+    (j/cell= (debug "Validate form input %s (%s)" validate valid))
+    (form/input
+      (dissoc attr :validate)
+      :success success
+      :danger  failure
+      kids)))
 
 (h/defelem number [attr kids]
   (input

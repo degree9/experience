@@ -16,5 +16,7 @@
         (table/row
           (h/for-tpl [c cells]
             (table/cell (h/text "~{(c d)}")))
-          (table/cell
-            (button/button button label)))))))
+          (h/when-tpl button
+            (let [{:keys [click] :as attr} button]
+              (table/cell
+                (button/button attr label)))))))))

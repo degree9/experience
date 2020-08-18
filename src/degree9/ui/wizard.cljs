@@ -17,7 +17,7 @@
             [uikit-hl.utility :as util]
             [uikit-hl.width :as width]))
 
-(dbg/defdebug debug "degree9::experience::wizard")
+(dbg/defdebug debug "degree9:experience:wizard")
 
 (defn- current-step [needle haystack]
   (first (keep-indexed #(when (= %2 needle) %1) haystack)))
@@ -73,56 +73,72 @@
                     :disabled (j/cell= (get-in step [:complete :disabled]))
                     (j/cell= (get-in step [:complete :text] (get complete :text complete)))))))))))))
 
-(h/defelem embedded-wizard [{:keys [title steps previous next cancel complete header footer menu] :as attr} kids]
-  (let [current (:current attr (j/cell 0))
-        step    (j/cell= (get steps current))
-        title   (j/cell= (:title step title))
-        attr    (dissoc attr :title :steps :previous :next :cancel :complete :header :footer)]
-    (card/card attr
-      (h/when-tpl (j/cell= (or header title))
-        (card/header
-          (h/when-tpl title
-            (card/title (h/text "~{title}")))
-          header))
-      (card/body ::section/muted true ::padding/small true ::util/overflow-auto true
-        (grid/grid :match true :small true
-          ::margin/remove true
-          ::width/width-1-1 true
-          ::flex/flex true ::flex/middle true
-          (grid/cell ::width/width-1-6 true
-            (tab/tab :left true ::width/child-width-auto true
-              (h/for-tpl [[key val] (j/cell= (map-indexed vector steps))]
-                (tab/item ::util/active (j/cell= (= val step))
-                  :click #(reset! current @key)
-                  (h/a (h/text "~{(:menu val (:title val))}"))))))
-          (grid/cell ::width/width-5-6 true
-            (j/cell= (get kids current)))))
-      (card/footer
-        (grid/grid :collapse true ::flex/flex true ::flex/middle true
-          (grid/cell ::text/right true ::width/width-expand true
-            (button/group ::width/child-width-auto true
-              footer
-              (h/when-tpl (j/cell= (:cancel? step (:cancel step (:cancel? attr (:cancel attr)))))
-                (button/button
-                  :default true
-                  :click (:cancel! attr)
-                  :disabled (j/cell= (get-in step [:cancel :disabled]))
-                  (j/cell= (get-in step [:cancel :text] (get cancel :text cancel)))))
-              (h/when-tpl (j/cell= (:previous? step (:previous step (:previous? attr (:previous attr)))))
-                (button/button
-                  :default true
-                  :click (:previous! attr #(swap! current dec))
-                  :disabled (j/cell= (get-in step [:previous :disabled]))
-                  (j/cell= (get-in step [:previous :text] (get previous :text previous)))))
-              (h/when-tpl (j/cell= (:next? step (:next step (:next? attr (:next attr)))))
-                (button/button
-                  :default true
-                  :click (:next! attr #(swap! current inc))
-                  :disabled (j/cell= (get-in step [:next :disabled]))
-                  (j/cell= (get-in step [:next :text] (get next :text next)))))
-              (h/when-tpl (j/cell= (:complete? step (:complete step (:complete? attr (:complete attr)))))
-                (button/button
-                  :primary true
-                  :click (:submit! attr)
-                  :disabled (j/cell= (get-in step [:complete :disabled]))
-                  (j/cell= (get-in step [:complete :text] (get complete :text complete))))))))))))
+(h/defelem embedded-header [{:keys [title] :as attr} kids]
+  (prn "EMBEDDED-HEADER" attr)
+  (card/header
+    (grid/grid :collapse true
+      (h/when-tpl title
+        (grid/cell ::text/left true ::width/width-expand true
+          (card/title (h/text "~{title}"))))
+      (for [k kids] (grid/cell k)))))
+
+(h/defelem embedded-menu [{:keys [menu current] :as attr} kids]
+  (prn "EMBEDDED-MENU" attr)
+  (grid/cell ::width/width-auto true
+    (tab/tab :left true ::width/child-width-auto true
+      (h/for-tpl [[idx page] menu]
+        (j/cell-let [{:keys [icon label]} page]
+          (tab/item :click #(reset! current @idx)
+            ::util/active (j/cell= (= current idx))
+            (h/a (h/i ::margin/small-right true :class (j/cell= [:fal icon])) (h/span ::margin/remove true label))))))))
+
+(h/defelem embedded-body [{:keys [menu current] :as attr} kids]
+  (prn "EMBEDDED-BODY" attr)
+  (card/body ::section/muted true ::padding/small true ::util/overflow-auto true
+    (grid/grid :match true :small true
+      ::margin/remove true
+      ::width/width-1-1 true
+      ::flex/flex true ::flex/middle true
+      (h/when-tpl menu
+        (embedded-menu :current current :menu menu))
+      (grid/cell ::width/width-expand true ::util/overflow-auto true kids))))
+
+(h/defelem embedded-footer [{:keys [cancel previous next complete] :as attr} kids]
+  (prn "EMBEDDED-FOOTER" attr)
+  (card/footer
+    (grid/grid :collapse true ::flex/flex true ::flex/middle true
+      kids
+      (grid/cell ::text/right true ::width/width-expand true
+        (button/group ::width/child-width-auto true
+          (h/when-tpl cancel
+            (j/cell-let [{:keys [click disabled label]} cancel]
+              (button/button :click click :disabled disabled (h/text "~{label}"))))
+          (h/when-tpl previous
+            (j/cell-let [{:keys [click disabled label]} previous]
+              (button/button :click click :disabled disabled (h/text "~{label}"))))
+          (h/when-tpl next
+            (j/cell-let [{:keys [click disabled label]} next]
+              (button/button :click click :disabled disabled (h/text "~{label}"))))
+          (h/when-tpl complete
+            (j/cell-let [{:keys [click disabled label]} complete]
+              (button/button :click click :disabled disabled (h/text "~{label}")))))))))
+
+(h/defelem embedded-wizard [{:keys [current header footer menu current pages title previous next cancel complete] :or {current (j/cell ::default)} :as attr} kids]
+  (prn "EMBEDDED-WIZARD" attr kids)
+  (let [page      (j/cell= (get pages current))
+        header    (j/cell= (:header page header))
+        footer    (j/cell= (:footer page footer))
+        menu      (j/cell= (:menu page menu))
+        title     (j/cell= (:title page title))
+        cancel    (j/cell= (:cancel page cancel))
+        previous  (j/cell= (:previous page previous))
+        next      (j/cell= (:next page next))
+        complete  (j/cell= (:complete page complete))]
+    (card/card
+      (dissoc attr :header :footer :menu :current :pages :title :previous :next :cancel :complete)
+      (h/when-tpl header
+        (embedded-header :title title header))
+      (h/when-tpl (j/cell= (not (empty? kids)))
+        (embedded-body :menu menu :current current kids))
+      (h/when-tpl footer
+        (embedded-footer :cancel cancel :previous previous :next next :complete complete footer)))))
