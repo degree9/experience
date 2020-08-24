@@ -4,7 +4,7 @@
             [uikit-hl.button :as button]
             [uikit-hl.table :as table]))
 
-(h/defelem table [{:keys [button label headers cells data] :as attr} kids]
+(h/defelem table [{:keys [button headers cells data] :as attr} kids]
   (table/table (dissoc attr :headers)
     (table/header
       (table/row
@@ -17,6 +17,9 @@
           (h/for-tpl [c cells]
             (table/cell (h/text "~{(c d)}")))
           (h/when-tpl button
-            (let [{:keys [click] :as attr} button]
+            (let [{:keys [click label] :as attr} button]
               (table/cell
-                (button/button attr label)))))))))
+                (button/button
+                  (dissoc attr :click)
+                  :click (partial click @d)
+                  label)))))))))

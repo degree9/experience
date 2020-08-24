@@ -74,7 +74,6 @@
                     (j/cell= (get-in step [:complete :text] (get complete :text complete)))))))))))))
 
 (h/defelem embedded-header [{:keys [title] :as attr} kids]
-  (prn "EMBEDDED-HEADER" attr)
   (card/header
     (grid/grid :collapse true
       (h/when-tpl title
@@ -83,7 +82,6 @@
       (for [k kids] (grid/cell k)))))
 
 (h/defelem embedded-menu [{:keys [menu current] :as attr} kids]
-  (prn "EMBEDDED-MENU" attr)
   (grid/cell ::width/width-auto true
     (tab/tab :left true ::width/child-width-auto true
       (h/for-tpl [[idx page] menu]
@@ -93,7 +91,6 @@
             (h/a (h/i ::margin/small-right true :class (j/cell= [:fal icon])) (h/span ::margin/remove true label))))))))
 
 (h/defelem embedded-body [{:keys [menu current] :as attr} kids]
-  (prn "EMBEDDED-BODY" attr)
   (card/body ::section/muted true ::padding/small true ::util/overflow-auto true
     (grid/grid :match true :small true
       ::margin/remove true
@@ -104,7 +101,6 @@
       (grid/cell ::width/width-expand true ::util/overflow-auto true kids))))
 
 (h/defelem embedded-footer [{:keys [cancel previous next complete] :as attr} kids]
-  (prn "EMBEDDED-FOOTER" attr)
   (card/footer
     (grid/grid :collapse true ::flex/flex true ::flex/middle true
       kids
@@ -112,33 +108,33 @@
         (button/group ::width/child-width-auto true
           (h/when-tpl cancel
             (j/cell-let [{:keys [click disabled label]} cancel]
-              (button/button :click click :disabled disabled (h/text "~{label}"))))
+              (button/button :default true :click click :disabled disabled (h/text "~{(or label \"Cancel\")}"))))
           (h/when-tpl previous
             (j/cell-let [{:keys [click disabled label]} previous]
-              (button/button :click click :disabled disabled (h/text "~{label}"))))
+              (button/button :default true :click click :disabled disabled (h/text "~{(or label \"Previous\")}"))))
           (h/when-tpl next
             (j/cell-let [{:keys [click disabled label]} next]
-              (button/button :click click :disabled disabled (h/text "~{label}"))))
+              (button/button :default true :click click :disabled disabled (h/text "~{(or label \"Next\")}"))))
           (h/when-tpl complete
             (j/cell-let [{:keys [click disabled label]} complete]
-              (button/button :click click :disabled disabled (h/text "~{label}")))))))))
+              (button/button :primary true :click click :disabled disabled (h/text "~{(or label \"Complete\")}")))))))))
 
-(h/defelem embedded-wizard [{:keys [current header footer menu current pages title previous next cancel complete] :or {current (j/cell ::default)} :as attr} kids]
-  (prn "EMBEDDED-WIZARD" attr kids)
-  (let [page      (j/cell= (get pages current))
-        header    (j/cell= (:header page header))
-        footer    (j/cell= (:footer page footer))
-        menu      (j/cell= (:menu page menu))
-        title     (j/cell= (:title page title))
-        cancel    (j/cell= (:cancel page cancel))
-        previous  (j/cell= (:previous page previous))
-        next      (j/cell= (:next page next))
-        complete  (j/cell= (:complete page complete))]
+(h/defelem embedded [{:keys [current pages] :or {current (j/cell ::default) pages {}} :as attr} kids]
+  (let [page     (j/cell= (get pages current))
+        header   (j/cell= (:header page (:header attr [])))
+        body     (j/cell= (not (empty? kids)))
+        footer   (j/cell= (:footer page (:footer attr [])))
+        menu     (j/cell= (:menu page (:menu attr [])))
+        title    (j/cell= (:title page (:title attr)))
+        cancel   (j/cell= (:cancel page (:cancel attr)))
+        previous (j/cell= (:previous page (:previous attr)))
+        next     (j/cell= (:next page (:next attr)))
+        complete (j/cell= (:complete page (:complete attr)))]
     (card/card
       (dissoc attr :header :footer :menu :current :pages :title :previous :next :cancel :complete)
       (h/when-tpl header
         (embedded-header :title title header))
-      (h/when-tpl (j/cell= (not (empty? kids)))
+      (h/when-tpl body
         (embedded-body :menu menu :current current kids))
       (h/when-tpl footer
         (embedded-footer :cancel cancel :previous previous :next next :complete complete footer)))))

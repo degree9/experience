@@ -98,5 +98,5 @@
   (input
     attr
     :type "tel"
-    :pattern regex/phone-num
+    :pattern regex/phone-number
     kids))
