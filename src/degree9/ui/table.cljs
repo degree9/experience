@@ -1,4 +1,4 @@
-(ns degree9.ui.tables
+(ns degree9.ui.table
   (:require [hoplon.core :as h]
             [javelin.core :as j]
             [uikit-hl.button :as button]

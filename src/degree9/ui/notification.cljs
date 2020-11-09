@@ -1,4 +1,4 @@
-(ns degree9.ui.notifications
+(ns degree9.ui.notification
   (:require [uikit-hl.notification :as notify]))
 
 (def ^:private defaults {:timeout "2500"})

@@ -1,4 +1,4 @@
-(ns degree9.ui.cards
+(ns degree9.ui.card
   (:require [hoplon.core :as h]
             [javelin.core :as j]
             [uikit-hl.card :as card]))

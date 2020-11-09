@@ -7,6 +7,7 @@
             [uikit-hl.card :as card]
             [uikit-hl.flex :as flex]
             [uikit-hl.grid :as grid]
+            [uikit-hl.height :as height]
             [uikit-hl.margin :as margin]
             [uikit-hl.modal :as modal]
             [uikit-hl.padding :as padding]
@@ -135,6 +136,8 @@
       (h/when-tpl header
         (embedded-header :title title header))
       (h/when-tpl body
-        (embedded-body :menu menu :current current kids))
+        (embedded-body :menu menu :current current
+          ::height/viewport "expand: true"
+          kids))
       (h/when-tpl footer
         (embedded-footer :cancel cancel :previous previous :next next :complete complete footer)))))
