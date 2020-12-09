@@ -14,9 +14,17 @@
 (defn map-stylesheets [styles]
   (map stylesheet styles))
 
+(defn responsive-viewport []
+  (h/html-meta :name "viewport" :content "width=device-width, initial-scale=1.0"))
+
 (h/defelem application [{:keys [styles scripts] :as attr} kids]
   (h/html
     (h/head
+      (responsive-viewport)
       (map-stylesheets styles)
       (map-scripts scripts))
     (h/body (dissoc attr :styles :scripts) kids)))
+
+(defn- html-coll [& args]
+  (let [fragment (.createDocumentFragment js/document)]
+    (.append fragment args)))

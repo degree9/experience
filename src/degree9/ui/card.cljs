@@ -3,15 +3,26 @@
             [javelin.core :as j]
             [uikit-hl.card :as card]))
 
-(def title card/title)
-
 (h/defelem card [{:keys [header body footer] :as attr} kids]
   (card/card
     (dissoc attr :header :body :footer)
-    (h/when-tpl header
-      (card/header header))
-    (h/if-tpl body
-      (card/body body)
-      kids)
-    (h/when-tpl footer
-      (card/footer footer))))
+    (h/when-tpl header header)
+    (h/if-tpl body body kids)
+    (h/when-tpl footer footer)))
+
+(def header card/header)
+
+(def title card/title)
+
+(def body card/body)
+
+(def footer card/footer)
+
+(h/defelem media [{:keys [top bottom left right] :as attr} kids]
+  (h/div
+    (dissoc attr :top :bottom :left :right)
+    ::card/media-top top
+    ::card/media-bottom bottom
+    ::card/media-left left
+    ::card/media-right right
+    kids))

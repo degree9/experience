@@ -11,6 +11,21 @@
 
 (dbg/defdebug debug "degree9:experience:forms")
 
+(h/defelem form [attr kids]
+  (form/form attr kids))
+
+(h/defelem fieldset [attr kids]
+  (form/fieldset attr kids))
+
+(h/defelem label [attr kids]
+  (form/label attr kids))
+
+(h/defelem legend [attr kids]
+  (form/legend attr kids))
+
+(h/defelem controls [attr kids]
+  (form/controls attr kids))
+
 (h/defelem input [{:keys [readonly value validate] :as attr} kids]
   (let [valid   (j/cell= (boolean validate))
         success (j/cell= (when-not readonly (when value valid)))
