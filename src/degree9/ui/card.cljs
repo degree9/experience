@@ -6,9 +6,9 @@
 (h/defelem card [{:keys [header body footer] :as attr} kids]
   (card/card
     (dissoc attr :header :body :footer)
-    (h/when-tpl header header)
-    (h/if-tpl body body kids)
-    (h/when-tpl footer footer)))
+    (when header header)
+    (if body body kids)
+    (when footer footer)))
 
 (def header card/header)
 
