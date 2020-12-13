@@ -60,9 +60,9 @@
 
 (defmulti height! h/kw-dispatcher)
 
-(defmethod h/do! ::default
+(defmethod h/do! :default
   [elem kw v]
-  (height! elem kw v))
+  (height/uk-height! elem kw v))
 
 (defmethod height! ::full
   [elem kw v]
