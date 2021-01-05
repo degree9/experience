@@ -58,9 +58,9 @@
     ::height/viewport {:expand true}
     kids))
 
-(defmulti height! h/kw-dispatcher)
+(defmulti height! h/kw-dispatcher :default ::default)
 
-(defmethod h/do! :default
+(defmethod h/do! ::default
   [elem kw v]
   (height/uk-height! elem kw v))
 
