@@ -15,8 +15,8 @@
   (let [fcell (j/cell nil)]
     (j/cell= (or fcell default) (partial reset! fcell))))
 
-(defn field-cell [data key]
-  (j/cell= (get data key) (partial swap! data assoc key)))
+(defn field-cell [data & keys]
+  (j/cell= (get-in data keys) (partial swap! data assoc-in keys)))
 
 (h/defelem form [attr kids]
   (form/form attr kids))

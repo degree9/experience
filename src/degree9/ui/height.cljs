@@ -62,8 +62,12 @@
 
 (defmethod h/do! ::default
   [elem kw v]
-  (height/uk-height! elem kw v))
+  (height/uk-height! elem (keyword height (name kw)) v))
 
 (defmethod height! ::full
   [elem kw v]
   (h/do! elem ::height/height-1-1 v))
+
+(defmethod height! ::match
+  [elem kw v]
+  (h/do! elem ::height/match v))

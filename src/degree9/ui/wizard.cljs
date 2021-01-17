@@ -39,7 +39,7 @@
                 (h/for-tpl [[key val] (j/cell= (map-indexed vector steps))]
                   (tab/item ::util/active (j/cell= (= val step))
                     :click #(reset! current @key)
-                    (h/a (h/text "~{(:title val)}"))))))
+                    (h/a (h/text "~{(:menu val)}"))))))
             (grid/cell ::width/width-expand true ::util/overflow-auto true
               (j/cell= (get kids current)))))
         (modal/footer
