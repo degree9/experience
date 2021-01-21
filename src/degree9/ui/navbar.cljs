@@ -10,11 +10,15 @@
 
 (def right navbar/right)
 
+(def nav navbar/nav)
+
+(def item navbar/item)
+
 (h/defelem navbar [{:keys [left center right sticky] :as attr} kids]
   (navbar/container
-    ::sticky sticky
+    ::sticky/sticky sticky
     (navbar/navbar
       (dissoc attr :left :center :right :sticky)
-      (h/when-tpl left left)
-      (h/when-tpl center center)
-      (h/when-tpl right right))))
+      (when left left)
+      (when center center)
+      (when right right))))

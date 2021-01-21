@@ -19,9 +19,11 @@
     ([modal] (hide! modal {}))
     ([modal opts] (modal/hide (uk/modal modal opts)))))
 
+
 (h/defelem close [{:keys [large] :as attr :or {close {}}} _]
   (modal/close
     (dissoc attr :large :close)
+    ::modal/close true
     ::close/close close
     ::close/large large))
 
@@ -32,11 +34,15 @@
       (modal/title title))
     kids))
 
+(def title modal/title)
+
 (def body modal/body)
 
 (def footer modal/footer)
 
 (h/defelem modal [{:keys [center container full] :as attr} kids]
-  (modal/modal :container container :full full
+  (modal/modal
+    (dissoc attr :center :container :full)
+    :container container :full full
     (modal/dialog ::margin/auto-vertical center
       kids)))

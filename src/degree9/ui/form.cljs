@@ -2,6 +2,7 @@
   (:require [hoplon.core :as h]
             [javelin.core :as j]
             [degree9.debug :as dbg]
+            [degree9.string :as str]
             [uikit-hl.form :as form]
             [uikit-hl.flex :as flex]
             [uikit-hl.grid :as grid]
@@ -16,7 +17,9 @@
     (j/cell= (or fcell default) (partial reset! fcell))))
 
 (defn field-cell [data & keys]
-  (j/cell= (get-in data keys) (partial swap! data assoc-in keys)))
+  (j/cell=
+    (get-in data keys)
+    (partial swap! data assoc-in keys)))
 
 (h/defelem form [attr kids]
   (form/form attr kids))
@@ -53,7 +56,6 @@
         success (j/cell= (when-not readonly (when value valid)))
         warning (j/cell= (when-not readonly (nil? value)))
         failure (j/cell= (when-not readonly (when value (not valid))))]
-    (j/cell= (prn value validate valid success warning failure))
     (form/select
       (dissoc attr :options :validate)
       :success success
