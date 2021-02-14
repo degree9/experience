@@ -5,6 +5,8 @@
             [uikit-hl.tab :as tab]))
 
 (h/defelem tab [{:keys [items] :as attr} kids]
-  (tab/tab attr
+  (tab/tab
+    (dissoc attr :items)
     (for [item items]
-      (tab/item item))))
+      (tab/item item))
+    kids))
