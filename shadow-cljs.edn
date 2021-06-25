@@ -3,7 +3,7 @@
  ["src"]
 
  :dependencies
- [[degree9/enterprise "0.2.0-SNAPSHOT"]
+ [[degree9/enterprise "0.2.0"]
 
   ;; dev
   [degree9/boot-semver "1.11.0" :scope "test"]]}
